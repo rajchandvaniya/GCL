@@ -1,0 +1,178 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+body {
+    background-image: linear-gradient(to top right, #7b72ec, #2c2969);
+    font-family: sans-serif;
+    font-weight: 300;
+    position: relative;
+    color: #5a0404;
+    background-color: #F8F8F8 !important;
+}
+
+button {
+    background-color: #bfa157 !important;
+    font-size: 25px !important;
+    font-weight: 700 !important;
+    color: #5a0404 !important;
+    border-radius: 0.7em !important;
+}
+
+.btn-flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-flex-container>div {
+    margin: 10px;
+    padding: 20px;
+    font-size: 30px;
+    border-radius: 0.7em !important;
+}
+
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.flex-container>div {
+    /* background-color: #f0eba9; */
+    margin: 10px;
+    padding: 10px 50px 10px 50px;
+    font-size: 30px;
+    border-radius: 0.7em;
+}
+
+/***********/
+/* PLAYERS */
+/***********/
+
+.player-name {
+    font-size: 20px;
+    color: #5a0404;
+    font-weight: bolder;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.player-score {
+    text-align: center;
+    font-size: 45px;
+    font-weight: 700;
+    color: #5a0404;
+    margin-bottom: 10px;
+}
+
+.player-logo>img {
+    height: 120px;
+    text-align: center;
+    display: block;
+    /* Ensures the image is treated as a block element */
+    margin: 0 auto;
+}
+
+#gcl-logo-img {
+    height: 170px;
+    text-align: center;
+    display: block;
+    /* Ensures the image is treated as a block element */
+    margin: 0 auto;
+}
+
+.active {
+    /* border: 6px solid #5a0404 !important; */
+    /* Example border style */
+    background-color: #bfa157 !important;
+    border-radius: 0.25rem;
+    color: white !important;
+}
+
+.round-complete {
+    opacity: .5;
+    background-color: rgb(230 201 201) !important;
+}
+
+.sum-box {
+    color: #5a0404 !important;
+    margin: 10px !important;
+    padding-left: 40px !important;
+    padding-right: 40px !important;
+    text-align: center;
+    border-radius: 0.7em !important;
+}
+
+.sum-label {
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    font-size: 20px;
+    color: #5a0404;
+    font-weight: bolder;
+}
+
+.sum-score {
+    font-size: 45px;
+    font-weight: 700;
+    color: #5a0404;
+}
+
+/* Buttons */
+button {
+    font-family: sans-serif;
+    font-size: 5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+/* Icons */
+i {
+    color: #eb4d4d;
+    display: inline-block;
+    margin-right: 15px;
+    font-size: 32px;
+    line-height: 1;
+    vertical-align: text-top;
+    margin-top: -4px;
+    transition: margin 0.3s;
+}
+
+/* Dice images */
+.dice {
+    height: 200px;
+    box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.50);
+}
+
+#round-history {
+    background: radial-gradient(ellipse farthest-corner at right bottom, #FEDB37 0%, #FDB931 8%, #9f7928 30%, #8A6E2F 40%, transparent 80%),
+        radial-gradient(ellipse farthest-corner at left top, #f0cc55 0%, #dcb73d 8%, #D1B464 25%, #5d4a1f 62.5%, #5d4a1f 100%) !important;
+    margin: 20px;
+    font-size: 20px;
+}
+
+/* Button */
+
+.ion--dice {
+    /* display: inline-block; */
+    width: 100px;
+    height: 100px;
+    margin: auto;
+    background-repeat: no-repeat;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='brown' d='M440.88 129.37L288.16 40.62a64.14 64.14 0 0 0-64.33 0L71.12 129.37a4 4 0 0 0 0 6.9L254 243.85a4 4 0 0 0 4.06 0L440.9 136.27a4 4 0 0 0-.02-6.9M256 152c-13.25 0-24-7.16-24-16s10.75-16 24-16s24 7.16 24 16s-10.75 16-24 16m-18 118.81L54 163.48a4 4 0 0 0-6 3.46v173.92a48 48 0 0 0 23.84 41.39L234 479.48a4 4 0 0 0 6-3.46V274.27a4 4 0 0 0-2-3.46M96 368c-8.84 0-16-10.75-16-24s7.16-24 16-24s16 10.75 16 24s-7.16 24-16 24m96-32c-8.84 0-16-10.75-16-24s7.16-24 16-24s16 10.75 16 24s-7.16 24-16 24m266-172.49L274 271.56a4 4 0 0 0-2 3.45V476a4 4 0 0 0 6 3.46l162.15-97.23A48 48 0 0 0 464 340.86V167a4 4 0 0 0-6-3.49M320 424c-8.84 0-16-10.75-16-24s7.16-24 16-24s16 10.75 16 24s-7.16 24-16 24m0-88c-8.84 0-16-10.75-16-24s7.16-24 16-24s16 10.75 16 24s-7.16 24-16 24m96 32c-8.84 0-16-10.75-16-24s7.16-24 16-24s16 10.75 16 24s-7.16 24-16 24m0-88c-8.84 0-16-10.75-16-24s7.16-24 16-24s16 10.75 16 24s-7.16 24-16 24'/%3E%3C/svg%3E");
+}
