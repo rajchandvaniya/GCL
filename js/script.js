@@ -1,18 +1,24 @@
 // @ts-nocheck
-var roundScore, activePlayer, players, roundNumber = null;
-
+var roundScore,
+  activePlayer,
+  players,
+  roundNumber = null;
+var diceSound = new Audio("img/dice-sound.mp3");
 
 init(false);
 
 // rolling two dice
 document.querySelector("#roll-dice-btn").addEventListener("click", function () {
   document.querySelector("#sum").textContent = "-";
-  document.querySelectorAll(".dice").forEach((elem) => elem.style.display = "block");
+  document
+    .querySelectorAll(".dice")
+    .forEach((elem) => (elem.style.display = "block"));
+  diceSound.play();
   // document.getElementById("next-btn").disabled = true;
   (function rollDiceAnimation(i) {
     setTimeout(() => {
       // showing animation
-      let [dice1, dice2] = rollDice(2)
+      let [dice1, dice2] = rollDice(2);
       document.getElementById("dice1").src = "img/dice-" + dice1 + ".png";
       document.getElementById("dice2").src = "img/dice-" + dice2 + ".png";
       if (i > 1) rollDiceAnimation(--i);
@@ -32,7 +38,6 @@ document.querySelector("#roll-dice-btn").addEventListener("click", function () {
   })(10);
 });
 
-
 // document.querySelector("#next-btn").addEventListener("click", function () {
 //   players[activePlayer]["score"] += roundScore;
 
@@ -42,39 +47,46 @@ document.querySelector("#roll-dice-btn").addEventListener("click", function () {
 //   document.getElementById("roll-dice-btn").disabled = false;
 // });
 
-
 // document.querySelector("#reset-btn").addEventListener("click", reset());
 
 function save() {
   // updating current player's scores
   players[activePlayer]["score"] += roundScore;
   const currentRoundScore = players[activePlayer].score;
-  const sumLastRoundScores = players[activePlayer].roundScoreHistory.reduce((accumulator, currentValue) => {
-    return accumulator + currentValue
-  }, 0);
-  players[activePlayer].roundScoreHistory.push(currentRoundScore - sumLastRoundScores);
+  const sumLastRoundScores = players[activePlayer].roundScoreHistory.reduce(
+    (accumulator, currentValue) => {
+      return accumulator + currentValue;
+    },
+    0
+  );
+  players[activePlayer].roundScoreHistory.push(
+    currentRoundScore - sumLastRoundScores
+  );
 
   document.querySelector("#score-" + activePlayer).textContent =
     players[activePlayer]["score"];
-  document.querySelector(".player-" + activePlayer + "-panel").classList.add("round-complete");
+  document
+    .querySelector(".player-" + activePlayer + "-panel")
+    .classList.add("round-complete");
   nextPlayer();
   document.getElementById("roll-dice-btn").disabled = false;
 
   // close modal
-  let myModalEl = document.getElementById('diceModal');
-  let modal = bootstrap.Modal.getInstance(myModalEl)
+  let myModalEl = document.getElementById("diceModal");
+  let modal = bootstrap.Modal.getInstance(myModalEl);
   modal.hide();
 
-  storeStateInLocalStorage()
-};
-
+  storeStateInLocalStorage();
+}
 
 function init() {
   loadStateFromLocalStorageOrDefault();
-  document.querySelectorAll(".dice").forEach(elem => elem.style.display = "none")
+  document
+    .querySelectorAll(".dice")
+    .forEach((elem) => (elem.style.display = "none"));
   document.getElementById("round").textContent = roundNumber;
-  renderPlayerCards()
-  document.getElementById('round-history').innerHTML = '';
+  renderPlayerCards();
+  document.getElementById("round-history").innerHTML = "";
   grayOutPlayersIfTheyHaveAlreadyPlayed();
   renderRoundHistoryTable();
 }
@@ -83,7 +95,6 @@ function reset() {
   localStorage.clear();
   init();
 }
-
 
 function nextPlayer() {
   let nextPlayer = (activePlayer + 1) % players.length;
@@ -101,16 +112,20 @@ function nextPlayer() {
     activePlayer = nextPlayer;
   }
   roundScore = 0;
-  focusActivePlayerCard()
+  focusActivePlayerCard();
   document.querySelector("#sum").textContent = "-";
-  document.querySelectorAll(".dice").forEach(elem => elem.style.display = "none")
+  document
+    .querySelectorAll(".dice")
+    .forEach((elem) => (elem.style.display = "none"));
 }
 
 function startNewRound() {
   roundNumber += 1;
   document.getElementById("round").textContent = roundNumber;
   for (let i = 0; i < players.length; i++) {
-    document.querySelector(".player-" + i + "-panel").classList.remove("round-complete");
+    document
+      .querySelector(".player-" + i + "-panel")
+      .classList.remove("round-complete");
   }
   players.sort((a, b) => b.score - a.score);
   renderPlayerCards();
@@ -124,20 +139,21 @@ function updateActivePlayer(updated) {
   } else {
     document.getElementById("roll-dice-btn").disabled = false;
   }
-  focusActivePlayerCard()
+  focusActivePlayerCard();
 }
 
 function rollDice(numOfDice) {
-  let values = []
+  let values = [];
   for (let i = 0; i < numOfDice; i++) {
-    values[i] = Math.floor(Math.random() * 6) + 1
+    values[i] = Math.floor(Math.random() * 6) + 1;
   }
   return values;
 }
 
 function renderPlayerCards() {
   for (var i = 0; i < players.length; i++) {
-    document.getElementById("name-" + i).innerHTML = i + 1 + ". " + players[i]["name"];
+    document.getElementById("name-" + i).innerHTML =
+      i + 1 + ". " + players[i]["name"];
     document.getElementById("score-" + i).textContent = players[i]["score"];
     document.getElementById("logo-" + i).innerHTML =
       "<img src=" + players[i]["logo"] + "/>";
@@ -151,12 +167,14 @@ function focusActivePlayerCard() {
       .querySelector(".player-" + i + "-panel")
       .classList.remove("active");
   }
-  document.querySelector(".player-" + activePlayer + "-panel").classList.add("active");
+  document
+    .querySelector(".player-" + activePlayer + "-panel")
+    .classList.add("active");
 }
 
 function renderRoundHistoryTable() {
-  let table = document.getElementById("round-history")
-  table.innerHTML = ''
+  let table = document.getElementById("round-history");
+  table.innerHTML = "";
   if (roundNumber > 1) {
     let thead = table.createTHead();
     let headRow = thead.insertRow();
@@ -169,10 +187,15 @@ function renderRoundHistoryTable() {
     let tbody = table.createTBody();
     for (let i = 0; i < players.length; i++) {
       let row = tbody.insertRow();
-      for (let data of [(i + 1), players[i].name.replaceAll("<br>", ""), players[i].roundScoreHistory, players[i].score]) {
-        let cell = row.insertCell()
-        let text = document.createTextNode(data)
-        cell.appendChild(text)
+      for (let data of [
+        i + 1,
+        players[i].name.replaceAll("<br>", ""),
+        players[i].roundScoreHistory,
+        players[i].score,
+      ]) {
+        let cell = row.insertCell();
+        let text = document.createTextNode(data);
+        cell.appendChild(text);
       }
     }
   }
@@ -181,15 +204,19 @@ function renderRoundHistoryTable() {
 function grayOutPlayersIfTheyHaveAlreadyPlayed() {
   for (let i = 0; i < players.length; i++) {
     if (hasPlayerPlayedCurrentRound(i)) {
-      document.querySelector(".player-" + i + "-panel").classList.add("round-complete");
+      document
+        .querySelector(".player-" + i + "-panel")
+        .classList.add("round-complete");
     } else {
-      document.querySelector(".player-" + i + "-panel").classList.remove("round-complete");
+      document
+        .querySelector(".player-" + i + "-panel")
+        .classList.remove("round-complete");
     }
   }
 }
 
 function hasPlayerPlayedCurrentRound(playerNumber) {
-  return players[playerNumber].roundScoreHistory[roundNumber - 1] != undefined
+  return players[playerNumber].roundScoreHistory[roundNumber - 1] != undefined;
 }
 
 function storeStateInLocalStorage() {
@@ -225,15 +252,30 @@ function loadStateFromLocalStorageOrDefault() {
 
   if (players == null) {
     players = [
-      { name: "Saral <br> Strikers", score: 0, roundScoreHistory: [], logo: "'img/Saral Strikers.png'" },
+      {
+        name: "Saral <br> Strikers",
+        score: 0,
+        roundScoreHistory: [],
+        logo: "'img/Saral Strikers.png'",
+      },
       {
         name: "Bhoolku <br> Challengers",
         score: 0,
         roundScoreHistory: [],
         logo: "'img/Bhoolku Challengers.png'",
       },
-      { name: "Gunatit <br> Titans", score: 0, roundScoreHistory: [], logo: "'img/Gunatit Titans.png'" },
-      { name: "Nimit <br> Knights", score: 0, roundScoreHistory: [], logo: "'img/Nimit Knights.png'" },
+      {
+        name: "Gunatit <br> Titans",
+        score: 0,
+        roundScoreHistory: [],
+        logo: "'img/Gunatit Titans.png'",
+      },
+      {
+        name: "Nimit <br> Knights",
+        score: 0,
+        roundScoreHistory: [],
+        logo: "'img/Nimit Knights.png'",
+      },
       {
         name: "Ekantik <br> Warriors",
         score: 0,
@@ -252,7 +294,12 @@ function loadStateFromLocalStorageOrDefault() {
         roundScoreHistory: [],
         logo: "'img/Sahajanand Rockers.png'",
       },
-      { name: "Nishkam <br> Royals", score: 0, roundScoreHistory: [], logo: "'img/Nishkam Royals.png'" },
+      {
+        name: "Nishkam <br> Royals",
+        score: 0,
+        roundScoreHistory: [],
+        logo: "'img/Nishkam Royals.png'",
+      },
       {
         name: "Suhrad <br> Sunrisers",
         score: 0,
@@ -277,10 +324,20 @@ function loadStateFromLocalStorageOrDefault() {
         roundScoreHistory: [],
         logo: "'img/Swadharmi Lions.png'",
       },
-      { name: "Akshar <br> Army", score: 0, roundScoreHistory: [], logo: "'img/Akshar Army.png'" },
-      { name: "Das <br> Daredevils", score: 0, roundScoreHistory: [], logo: "'img/Das Daredevils.png'" },
+      {
+        name: "Akshar <br> Army",
+        score: 0,
+        roundScoreHistory: [],
+        logo: "'img/Akshar Army.png'",
+      },
+      {
+        name: "Das <br> Daredevils",
+        score: 0,
+        roundScoreHistory: [],
+        logo: "'img/Das Daredevils.png'",
+      },
     ];
   } else {
-    players = JSON.parse(players)
+    players = JSON.parse(players);
   }
 }
