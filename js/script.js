@@ -322,7 +322,7 @@ function loadStateFromLocalStorageOrDefault() {
         name: "Swadharmi <br> Lions",
         score: 0,
         roundScoreHistory: [],
-        logo: "'img/Swadharmi Lions.png'",
+        logo: "'img/Swadharmi lions.png'",
       },
       {
         name: "Akshar <br> Army",
